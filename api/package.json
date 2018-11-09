@@ -1,0 +1,16 @@
+{
+  "name": "marschat-api",
+  "version": "0.0.1",
+  "description": "Client-facing API for marschat",
+  "main": "index.js",
+  "repository": "https://github.com/ahappypie/marschat",
+  "author": "Brian Bagdasarian",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "scripts": {
+    "dev": "node $NODE_DEBUG_OPTION index.js"
+  }
+}

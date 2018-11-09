@@ -1,3 +1,4 @@
 .idea/
 marschat.iml
 infra/data
+node_modules
