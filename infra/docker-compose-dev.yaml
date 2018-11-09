@@ -1,0 +1,32 @@
+version: '3.5'
+services:
+  nats:
+    image: nats-streaming:latest
+    container_name: nats-streaming-marschat
+    command: -m 8222 --store FILE --dir datastore --file_compact_enabled
+    ports:
+    - "4222:4222"
+    - "8222:8222"
+    volumes:
+    - ./data/nats-streaming:/datastore
+    networks:
+    - marschat-dev-net
+
+  db:
+    image: mysql:8
+    container_name: mysql-marschat
+    ports:
+    - "3306:3306"
+    volumes:
+    - ./data/mysql:/var/lib/mysql
+    networks:
+      - marschat-dev-net
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: r3dpl4n3t
+      MYSQL_DATABASE: marschat
+
+networks:
+  marschat-dev-net:
+    name: marschat-dev-net
+    driver: bridge
