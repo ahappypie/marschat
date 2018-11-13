@@ -15,7 +15,7 @@ const Message = sequelize.define('message', {
     message_id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
     text: Sequelize.TEXT,
     sender: Sequelize.INTEGER,
-    timestamp: Sequelize.INTEGER,
+    timestamp: Sequelize.BIGINT,
     origin: Sequelize.ENUM('earth', 'mars'),
     replicated: {type: Sequelize.BOOLEAN, defaultValue: false}
 });
