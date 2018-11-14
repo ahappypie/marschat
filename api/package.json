@@ -10,6 +10,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mysql2": "^1.6.4",
+    "node-nats-streaming": "^0.0.51",
     "sequelize": "^4.41.1"
   },
   "scripts": {

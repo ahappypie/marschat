@@ -3,7 +3,7 @@ services:
   nats:
     image: nats-streaming:latest
     container_name: nats-streaming-marschat
-    command: -m 8222 --store FILE --dir datastore --file_compact_enabled
+    command: -m 8222 --store FILE --dir datastore --file_compact_enabled -cid marschat-nats-cluster
     ports:
     - "4222:4222"
     - "8222:8222"

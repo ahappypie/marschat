@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const {sequelize, Message, MessageRecipient} = require('./db.js');
+const NatsStreaming = require('./publisher');
+const stan = new NatsStreaming();
 
 app.use(bodyParser.json());
 
@@ -19,6 +21,11 @@ app.post('/message', async (req, res) => {
         mr.push({message_id: m.get().message_id, recipient: r.id});
     });
     MessageRecipient.bulkCreate(mr);
+    stan.publish('delay', {message_id: m.get().message_id, timestamp: m.get().timestamp}).then(res => {
+        console.log(res);
+    }).catch(ex => {
+        console.error(ex);
+    });
     res.send({message_id: m.get().message_id});
 });
 
@@ -26,7 +33,9 @@ app.listen(3000, async () => {
     try {
         await sequelize.authenticate();
         await sequelize.sync({force:true});
-        console.log('App ready on port 3000, DB synced')
+        console.log('DB synced');
+        await stan.connect();
+        console.log('NATS connected');
     } catch (ex) {
         console.error(ex);
     }
