@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   nats:
-    image: nats-streaming:latest
+    image: nats-streaming:0.11.2-linux
     container_name: nats-streaming-marschat
     command: -m 8222 --store FILE --dir datastore --file_compact_enabled -cid marschat-nats-cluster
     ports:
