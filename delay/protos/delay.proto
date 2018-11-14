@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service LightDelay {
+    rpc GetLightDelay (LightDelayRequest) returns (LightDelayResponse);
+}
+
+message LightDelayRequest {
+    uint64 timestamp = 1;
+}
+
+message LightDelayResponse {
+    uint32 delay = 1;
+}
