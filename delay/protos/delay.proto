@@ -1,7 +1,10 @@
 syntax = "proto3";
 
+option java_package = "com.ahappypie.marschat.grpc";
+option java_outer_classname = "LightDelayProto";
+
 service LightDelay {
-    rpc GetLightDelay (LightDelayRequest) returns (LightDelayResponse);
+    rpc GetLightDelay (LightDelayRequest) returns (LightDelayResponse) {}
 }
 
 message LightDelayRequest {

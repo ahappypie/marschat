@@ -3,3 +3,13 @@ name := "light-delay-service"
 version := "0.0.1"
 
 scalaVersion := "2.12.7"
+
+PB.targets in Compile := Seq(
+  scalapb.gen() -> (sourceManaged in Compile).value
+)
+PB.protoSources in Compile := Seq(baseDirectory.value / ".." / "protos")
+
+libraryDependencies ++= Seq(
+  "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
+  "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion
+)
