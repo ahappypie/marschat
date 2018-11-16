@@ -16,7 +16,7 @@ object LightDelayServer {
     server.blockUntilShutdown()
   }
 
-  private val port = sys.env.getOrElse("LIGHT_DELAY_GRPC_PORT", "50051").toInt
+  private val port = sys.env.getOrElse("GRPC_PORT", "50051").toInt
 }
 
 class LightDelayServer(executionContext: ExecutionContext) { self =>
@@ -46,7 +46,7 @@ class LightDelayServer(executionContext: ExecutionContext) { self =>
 
   private class LightDelayImpl extends LightDelayGrpc.LightDelay {
     override def getLightDelay(req: LightDelayRequest) = {
-      val reply = LightDelayResponse(delay = 1)
+      val reply = LightDelayResponse(delay = 10)
       Future.successful(reply)
     }
   }
