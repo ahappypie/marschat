@@ -11,7 +11,7 @@ stan.on('connect', () => {
     delaySub.on('message', (msg) => {
         console.log(msg.getData());
 
-        rpc.getLightDelay(msg.getData().timestamp).then(res => {
+        rpc.getLightDelay(JSON.parse(msg.getData()).timestamp).then(res => {
             console.log(res);
         }).catch(ex => {
             console.error(ex);
