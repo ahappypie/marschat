@@ -16,10 +16,24 @@ object DelayActor {
 
 class DelayActor extends Actor {
   override def receive: Receive = {
-    case req: LightDelayRequest => val jd = julianDate(req.timestamp)
-      println(earthHelio(jd))
-      println(marsHelio(jd))
-      sender ! LightDelayResponse(delay = 10)
+    case req: LightDelayRequest =>
+      sender ! LightDelayResponse(delay(req.timestamp))
+  }
+
+  def delay(timestamp: Long): Int = {
+    val jd = julianDate(timestamp)
+    val earth = earthHelio(jd)
+    val mars = marsHelio(jd)
+    val d = distance(earth, mars, jd)
+    val lt = lightTime(d)
+
+    val jd2 = jd - lt
+    val earth2 = earthHelio(jd2)
+    val mars2 = marsHelio(jd2)
+    val d2 = distance(earth2, mars2, jd2)
+    val lt2 = lightTime(d2)
+
+    Math.round(lt2 * 1440 * 60).toInt
   }
 
   def julianDate(timestamp: Long): Double = {
@@ -116,5 +130,23 @@ class DelayActor extends Actor {
     val R = (R0 + R1 * t + R2 * t2 + R3 * t3 + R4 * t4 + R5 * t5)
 
     (L,B,R)
+  }
+  //In AU
+  def distance(earth: (Double, Double, Double), mars: (Double, Double, Double), jd: Double): Double = {
+    val x = (mars._3 * Math.cos(mars._2) * Math.cos(mars._1)) - (earth._3 * Math.cos(earth._1) * Math.cos(earth._2))
+    val y = (mars._3 * Math.cos(mars._2) * Math.sin(mars._1)) - (earth._3 * Math.sin(earth._1) * Math.cos(earth._2))
+    val z = (mars._3 * Math.sin(mars._2)) - (earth._3 * Math.sin(earth._2))
+
+    val t = (jd - 2451545.0)/365250.0
+    val Q = 3.8048177 + (8399.711184 * t)
+    val u = x - (Math.cos(Q) * 0.0000312)
+    val v = y - (Math.sin(Q) * 0.0000286)
+    val w = z - (Math.sin(Q) * 0.0000124)
+
+    Math.sqrt(Math.pow(u, 2) + Math.pow(v, 2) + Math.pow(w, 2))
+  }
+  //In days
+  def lightTime(distance: Double): Double = {
+    distance * .0057755183
   }
 }

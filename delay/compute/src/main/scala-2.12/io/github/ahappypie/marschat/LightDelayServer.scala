@@ -55,9 +55,6 @@ class LightDelayServer(ec: ExecutionContext, ds: ActorRef) { self =>
     implicit val timeout = Timeout(5 seconds)
 
     override def getLightDelay(req: LightDelayRequest) = {
-      //val reply = LightDelayResponse(delay = 10)
-      //Future.successful(reply)
-      println(req.timestamp)
       ds.ask(req).mapTo[LightDelayResponse]
     }
   }
