@@ -13,8 +13,8 @@ services:
     - marschat-dev-net
 
   db:
-    image: mysql:8
-    container_name: mysql-marschat
+    image: mariadb:10.3-myrocks
+    container_name: myrocks-marschat
     ports:
     - "3306:3306"
     volumes:
