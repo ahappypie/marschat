@@ -7,10 +7,11 @@
   "author": "Brian Bagdasarian",
   "license": "MIT",
   "dependencies": {
-    "mysql2": "^1.6.4",
-    "node-nats-streaming": "^0.0.51",
+    "@grpc/proto-loader": "^0.3.0",
+    "grpc": "^1.16.0",
     "ioredis": "^4.2.0",
-    "grpc": "^1.16.0"
+    "mysql2": "^1.6.4",
+    "node-nats-streaming": "^0.0.51"
   },
   "scripts": {
     "dev:consumer": "node $NODE_DEBUG_OPTION consumer.js",

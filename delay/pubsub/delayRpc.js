@@ -1,8 +1,17 @@
 const grpc = require('grpc');
+const protoLoader = require('@grpc/proto-loader');
 
 class DelayRpc {
     constructor(protofile) {
-        const protoDescriptor = grpc.load(protofile);
+        const packageDefinition = protoLoader.loadSync(
+            protofile,
+            {keepCase: true,
+                longs: String,
+                enums: String,
+                defaults: true,
+                oneofs: true
+            });
+        const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
         this.client = new protoDescriptor.LightDelay(process.env.GRPC_URL, grpc.credentials.createInsecure());
     }
 
