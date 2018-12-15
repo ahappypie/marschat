@@ -13,6 +13,7 @@
     "grpc": "^1.16.0"
   },
   "scripts": {
-    "dev:consumer": "node $NODE_DEBUG_OPTION consumer.js"
+    "dev:consumer": "node $NODE_DEBUG_OPTION consumer.js",
+    "dev:expire-publisher": "node $NODE_DEBUG_OPTION expire-publisher.js"
   }
 }

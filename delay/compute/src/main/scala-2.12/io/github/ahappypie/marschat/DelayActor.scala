@@ -33,7 +33,7 @@ class DelayActor extends Actor {
     val d2 = distance(earth2, mars2, jd2)
     val lt2 = lightTime(d2)
 
-    Math.round(lt2 * 1440 * 60).toInt
+    Math.round(lt2 * 1440 * 60 * 1000).toInt
   }
 
   def julianDate(timestamp: Long): Double = {

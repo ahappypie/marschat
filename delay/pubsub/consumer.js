@@ -18,11 +18,11 @@ redis.on('ready', () => {
             console.log(m);
 
             rpc.getLightDelay(m.timestamp).then(res => {
-                redis.set('key', m.message_id, 'ex', res.delay)
+                redis.set(m.message_id, '','PX', res.delay);
             }).catch(ex => {
                 console.error(ex);
             })
 
         });
     })
-})
+});
