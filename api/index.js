@@ -39,7 +39,9 @@ app.listen(3000, async () => {
 
         stan.subscribe('expire', 'api-expire-subscriber').on('message', (msg) => {
             const m = JSON.parse(msg.getData());
-            console.log(m);
+            Message.update({replicated: true}, {where: {message_id: m}}).then(rows => {
+                console.log(`Replicated ${rows[0]} messages`);
+            })
         })
     } catch (ex) {
         console.error(ex);
