@@ -5,6 +5,9 @@ const {sequelize, Message, MessageRecipient} = require('./db.js');
 const NatsStreaming = require('./stan');
 const stan = new NatsStreaming();
 
+const grpc = require('grpc');
+const protoLoader = require('@grpc/proto-loader');
+
 app.use(bodyParser.json());
 
 app.post('/message', async (req, res) => {
@@ -27,6 +30,29 @@ app.post('/message', async (req, res) => {
         console.error(ex);
     });
     res.send({message_id: m.get().message_id});
+});
+
+app.get('/delay', async(req, res) => {
+   console.log(req.query);
+
+    const packageDefinition = protoLoader.loadSync(
+        '../delay/protos/delay.proto',
+        {keepCase: true,
+            longs: String,
+            enums: String,
+            defaults: true,
+            oneofs: true
+        });
+    const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+    const grpcClient = new protoDescriptor.LightDelay(process.env.GRPC_URL, grpc.credentials.createInsecure());
+
+    grpcClient.getLightDelay({timestamp: req.query.ts}, (err, response) => {
+        if(!err) {
+            res.send(response);
+        } else {
+            res.error(err);
+        }
+    });
 });
 
 app.listen(3000, async () => {

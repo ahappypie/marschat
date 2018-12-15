@@ -7,8 +7,10 @@
   "author": "Brian Bagdasarian",
   "license": "MIT",
   "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "grpc": "^1.16.1",
     "mysql2": "^1.6.4",
     "node-nats-streaming": "^0.0.51",
     "sequelize": "^4.41.1"
