@@ -17,6 +17,13 @@ class NatsStream {
         });
     }
 
+    subscribe(channel, durableName) {
+        const subscriptionOptions = this.stan.subscriptionOptions();
+        subscriptionOptions.setDurableName(durableName);
+
+        return this.stan.subscribe(channel, subscriptionOptions);
+    }
+
     publish(channel, message) {
         return new Promise((resolve, reject) => {
             this.stan.publish(channel, JSON.stringify(message), (err, guid) => {

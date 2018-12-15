@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const {sequelize, Message, MessageRecipient} = require('./db.js');
-const NatsStreaming = require('./publisher');
+const NatsStreaming = require('./stan');
 const stan = new NatsStreaming();
 
 app.use(bodyParser.json());
@@ -36,6 +36,11 @@ app.listen(3000, async () => {
         console.log('DB synced');
         await stan.connect();
         console.log('NATS connected');
+
+        stan.subscribe('expire', 'api-expire-subscriber').on('message', (msg) => {
+            const m = JSON.parse(msg.getData());
+            console.log(m);
+        })
     } catch (ex) {
         console.error(ex);
     }
