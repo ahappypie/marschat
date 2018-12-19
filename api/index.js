@@ -2,11 +2,34 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const {sequelize, Message, MessageRecipient} = require('./db.js');
+
 const NatsStreaming = require('./stan');
 const stan = new NatsStreaming();
 
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
+
+const delayPackageDefinition = protoLoader.loadSync(
+    '../delay/protos/delay.proto',
+    {keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    });
+const delayProtoDescriptor = grpc.loadPackageDefinition(delayPackageDefinition);
+const grpcDelayClient = new delayProtoDescriptor.LightDelay(process.env.GRPC_DELAY_URL, grpc.credentials.createInsecure());
+
+const messagePackageDefinition = protoLoader.loadSync(
+    '../delay/protos/message.proto',
+    {keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    });
+const messageProtoDescriptor = grpc.loadPackageDefinition(messagePackageDefinition);
+const grpcMessageClient = new messageProtoDescriptor.MessageDelay(process.env.GRPC_MESSAGE_URL, grpc.credentials.createInsecure());
 
 app.use(bodyParser.json());
 
@@ -19,34 +42,27 @@ app.post('/message', async (req, res) => {
         origin: req.body.origin
     });
     console.log(m.get({plain:true}));
+
+    grpcMessageClient.setMessageDelay({message_id: m.get().message_id, timestamp: m.get().timestamp}, (err, response) => {
+        if(!err) {
+            response.message_id = m.get().message_id;
+            res.send(response);
+        } else {
+            res.error(err);
+        }
+    });
+
     const mr = [];
     req.body.recipients.forEach(r => {
         mr.push({message_id: m.get().message_id, recipient: r.id});
     });
     MessageRecipient.bulkCreate(mr);
-    stan.publish('delay', {message_id: m.get().message_id, timestamp: m.get().timestamp}).then(res => {
-        console.log(res);
-    }).catch(ex => {
-        console.error(ex);
-    });
-    res.send({message_id: m.get().message_id});
 });
 
 app.get('/delay', async(req, res) => {
-   console.log(req.query);
+    console.log(req.query);
 
-    const packageDefinition = protoLoader.loadSync(
-        '../delay/protos/delay.proto',
-        {keepCase: true,
-            longs: String,
-            enums: String,
-            defaults: true,
-            oneofs: true
-        });
-    const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
-    const grpcClient = new protoDescriptor.LightDelay(process.env.GRPC_URL, grpc.credentials.createInsecure());
-
-    grpcClient.getLightDelay({timestamp: req.query.ts}, (err, response) => {
+    grpcDelayClient.getLightDelay({timestamp: req.query.ts}, (err, response) => {
         if(!err) {
             res.send(response);
         } else {

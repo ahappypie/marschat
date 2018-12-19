@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service MessageDelay {
+    rpc SetMessageDelay (MessageDelayRequest) returns (MessageDelayResponse) {}
+}
+
+message MessageDelayRequest {
+    uint32 message_id = 1;
+    uint64 timestamp = 2;
+}
+
+message MessageDelayResponse {
+    uint32 delay = 1;
+}

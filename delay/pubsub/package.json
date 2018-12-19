@@ -14,7 +14,7 @@
     "node-nats-streaming": "^0.0.51"
   },
   "scripts": {
-    "dev:consumer": "node $NODE_DEBUG_OPTION consumer.js",
+    "dev:message-service": "node $NODE_DEBUG_OPTION messageService.js",
     "dev:expire-publisher": "node $NODE_DEBUG_OPTION expire-publisher.js"
   }
 }
