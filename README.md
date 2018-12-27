@@ -30,3 +30,43 @@ You must set environment variables for the GRPC servers. Typically, I set the fo
 GRPC_DELAY_URL=localhost:50051
 GRPC_MESSAGE_URL=localhost:50061
 ```
+
+#### Dependencies
+Ensure yarn and sbt are available in your shell.
+Then run the following commands to install dependencies:
+```bash
+cd api
+yarn install
+cd ../delay/message
+yarn install
+cd ../expire
+yarn install
+```
+Then compile the SBT project:
+```bash
+cd ../compute
+sbt compile
+```
+
+#### Running Services
+Each yarn service has a specific dev command:
+
+/api: ```yarn dev```
+
+/delay/message: ```yarn dev:message-service```
+
+/delay/expire: ```yarn dev:expire-service```
+
+For SBT:
+
+/delay/compute: ```sbt run```
+
+#### Endpoints
+There are two endpoints available:
+
+```GET localhost:3000/delay``` requires query parameter ```ts```, the unix timestamp you would like to know the light delay for. 
+Returns light delay in milliseconds.
+
+```POST localhost:3000/message``` IN PROGRESS. Will accept body with ```message_id```, ```timestamp``` and ```callback_url```. 
+Immediately returns light delay in milliseconds.
+After the delay for ```timestamp```, a ```POST``` request will be made to ```callback_url``` indicating ```message_id``` has expired. 
