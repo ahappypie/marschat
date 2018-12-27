@@ -1,0 +1,17 @@
+{
+  "name": "marschat-delay",
+  "version": "0.0.1",
+  "description": "Light-delay system for marschat",
+  "main": "index.js",
+  "repository": "https://github.com/ahappypie/marschat",
+  "author": "Brian Bagdasarian",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^4.2.0",
+    "mysql2": "^1.6.4",
+    "axios": "^0.18.0"
+  },
+  "scripts": {
+    "dev:expire-service": "node $NODE_DEBUG_OPTION expireService.js"
+  }
+}

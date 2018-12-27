@@ -445,11 +445,6 @@ glob@^7.0.5:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-google-protobuf@^3.3.0:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.6.1.tgz#7ef58e2bea137a93cdaf5cfd5afa5f6abdd92025"
-  integrity sha512-SJYemeX5GjDLPnadcmCNQePQHCS4Hl5fOcI/JawqDIYFhCmrtYAjcx/oTQx/Wi8UuCuZQhfvftbmPePPAYHFtA==
-
 grpc@^1.16.1:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.16.1.tgz#533316f38cea68111ef577728c3f4e8e9e554543"
@@ -710,13 +705,6 @@ nan@^2.0.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
   integrity sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
 
-nats@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nats/-/nats-1.0.1.tgz#e1bd1561a20188f9aceb2d275127facbc762c292"
-  integrity sha512-FpvmGwCNcKxujBAd+wUkiIx9IjsOETj224PositBx/KYqlQtICY9ZwBLIiMstndwuiSXm132VhN1HV+m+WSbtg==
-  dependencies:
-    nuid "^1.0.0"
-
 needle@^2.2.1:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.4.tgz#51931bff82533b1928b7d1d69e01f1b00ffd2a4e"
@@ -730,15 +718,6 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
   integrity sha1-KzJxhOiZIQEXeyhWP7XnECrNDKk=
-
-node-nats-streaming@^0.0.51:
-  version "0.0.51"
-  resolved "https://registry.yarnpkg.com/node-nats-streaming/-/node-nats-streaming-0.0.51.tgz#7a1e235f88645a8d19792d73fa72a43ec78182b6"
-  integrity sha512-aTkZFWkSs7QYzvXgN2AGeydAIOZeDpuNfCkRrDIPbiJMGjiMxzM6cMOx5iTj93wCT5g08ZHEqd00qMXXVzpQpQ==
-  dependencies:
-    google-protobuf "^3.3.0"
-    nats "^1.0.0"
-    nuid "^1.0.0"
 
 node-pre-gyp@^0.12.0:
   version "0.12.0"
@@ -786,11 +765,6 @@ npmlog@^4.0.2:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
-
-nuid@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/nuid/-/nuid-1.0.0.tgz#04ecc21be41cc321940a9089984382f3bdc61638"
-  integrity sha512-046ukkoG8NXjiJMpQYLpGhYJIXJlClt2rDlnubCXN1/pztO/YTD2WkhyBZsEADsUwVtVMv5UmC0B2QrT5sZiDQ==
 
 number-is-nan@^1.0.0:
   version "1.0.1"

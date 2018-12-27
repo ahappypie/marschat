@@ -3,14 +3,11 @@ const bodyParser = require('body-parser');
 const app = express();
 const {sequelize, Message, MessageRecipient} = require('./db.js');
 
-const NatsStreaming = require('./stan');
-const stan = new NatsStreaming();
-
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 
 const delayPackageDefinition = protoLoader.loadSync(
-    '../delay/protos/delay.proto',
+    '../protos/delay.proto',
     {keepCase: true,
         longs: String,
         enums: String,
@@ -21,7 +18,7 @@ const delayProtoDescriptor = grpc.loadPackageDefinition(delayPackageDefinition);
 const grpcDelayClient = new delayProtoDescriptor.LightDelay(process.env.GRPC_DELAY_URL, grpc.credentials.createInsecure());
 
 const messagePackageDefinition = protoLoader.loadSync(
-    '../delay/protos/message.proto',
+    '../protos/message.proto',
     {keepCase: true,
         longs: String,
         enums: String,
@@ -76,15 +73,6 @@ app.listen(3000, async () => {
         await sequelize.authenticate();
         await sequelize.sync({force:true});
         console.log('DB synced');
-        await stan.connect();
-        console.log('NATS connected');
-
-        stan.subscribe('expire', 'api-expire-subscriber').on('message', (msg) => {
-            const m = JSON.parse(msg.getData());
-            Message.update({replicated: true}, {where: {message_id: m}}).then(rows => {
-                console.log(`Replicated ${rows[0]} messages`);
-            })
-        })
     } catch (ex) {
         console.error(ex);
     }

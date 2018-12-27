@@ -9,12 +9,9 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
     "grpc": "^1.16.0",
-    "ioredis": "^4.2.0",
-    "mysql2": "^1.6.4",
-    "node-nats-streaming": "^0.0.51"
+    "ioredis": "^4.2.0"
   },
   "scripts": {
-    "dev:message-service": "node $NODE_DEBUG_OPTION messageService.js",
-    "dev:expire-publisher": "node $NODE_DEBUG_OPTION expire-publisher.js"
+    "dev:message-service": "node $NODE_DEBUG_OPTION messageService.js"
   }
 }
