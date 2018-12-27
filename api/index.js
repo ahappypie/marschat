@@ -37,7 +37,7 @@ const unicaPackageDefinition = protoLoader.loadSync(
         oneofs: true
     });
 const unicaProtoDescriptor = grpc.loadPackageDefinition(unicaPackageDefinition);
-const grpcUnicaClient = new unicaProtoDescriptor.Unica('localhost:50001', grpc.credentials.createInsecure());
+const grpcUnicaClient = new unicaProtoDescriptor.Unica(process.env.UNICA_URL, grpc.credentials.createInsecure());
 
 app.use(bodyParser.json());
 
