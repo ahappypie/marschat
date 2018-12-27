@@ -13,7 +13,7 @@ const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
 });
 
 const Message = sequelize.define('message', {
-    message_id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
+    message_id: {type: Sequelize.STRING, primaryKey: true},
     text: Sequelize.TEXT,
     sender: Sequelize.INTEGER,
     timestamp: Sequelize.BIGINT,
@@ -22,7 +22,7 @@ const Message = sequelize.define('message', {
 });
 
 const MessageRecipient = sequelize.define('message_recipient', {
-    message_id: Sequelize.INTEGER,
+    message_id: Sequelize.STRING,
     recipient: Sequelize.INTEGER
 });
 

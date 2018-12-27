@@ -28,11 +28,26 @@ const messagePackageDefinition = protoLoader.loadSync(
 const messageProtoDescriptor = grpc.loadPackageDefinition(messagePackageDefinition);
 const grpcMessageClient = new messageProtoDescriptor.MessageDelay(process.env.GRPC_MESSAGE_URL, grpc.credentials.createInsecure());
 
+const unicaPackageDefinition = protoLoader.loadSync(
+    '../../unica/protos/unica.proto',
+    {keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    });
+const unicaProtoDescriptor = grpc.loadPackageDefinition(unicaPackageDefinition);
+const grpcUnicaClient = new unicaProtoDescriptor.Unica('localhost:50001', grpc.credentials.createInsecure());
+
 app.use(bodyParser.json());
 
 app.post('/message', async (req, res) => {
     console.log(req.body);
+
+    let uid = await unica();
+
     const m = await Message.create({
+        message_id: uid,
         text: req.body.text,
         sender: req.body.sender.id,
         timestamp: req.body.timestamp,
@@ -40,12 +55,12 @@ app.post('/message', async (req, res) => {
     });
     console.log(m.get({plain:true}));
 
-    grpcMessageClient.setMessageDelay({message_id: m.get().message_id, timestamp: m.get().timestamp}, (err, response) => {
+    grpcMessageClient.setMessageDelay({message_id: ''+m.get().message_id, timestamp: m.get().timestamp}, (err, response) => {
         if(!err) {
             response.message_id = m.get().message_id;
             res.send(response);
         } else {
-            res.error(err);
+            throw new Error(err);
         }
     });
 
@@ -77,3 +92,15 @@ app.listen(3000, async () => {
         console.error(ex);
     }
 });
+
+const unica = async () => {
+    return new Promise((resolve, reject) => {
+        grpcUnicaClient.getId({}, (err, response) => {
+            if (!err) {
+                resolve(response.id);
+            } else {
+                reject();
+            }
+        });
+    })
+}
