@@ -36,11 +36,11 @@ Ensure yarn and sbt are available in your shell.
 Then run the following commands to install dependencies:
 ```bash
 cd api
-yarn install
+npm install
 cd ../delay/message
-yarn install
+npm install
 cd ../expire
-yarn install
+npm install
 ```
 Then compile the SBT project:
 ```bash
@@ -51,11 +51,11 @@ sbt compile
 #### Running Services
 Each yarn service has a specific dev command:
 
-/api: ```yarn dev```
+/api: ```npm run dev```
 
-/delay/message: ```yarn dev:message-service```
+/delay/message: ```npm run dev:message-service```
 
-/delay/expire: ```yarn dev:expire-service```
+/delay/expire: ```npm run dev:expire-service```
 
 For SBT:
 
