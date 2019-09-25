@@ -1,16 +1,5 @@
 version: '3.5'
 services:
-  nats:
-    image: nats-streaming:0.11.2-linux
-    container_name: nats-streaming-marschat
-    command: -m 8222 --store FILE --dir datastore --file_compact_enabled -cid marschat-nats-cluster
-    ports:
-    - "4222:4222"
-    - "8222:8222"
-    volumes:
-    - ./data/nats-streaming:/datastore
-    networks:
-    - marschat-dev-net
 
   db:
     image: quay.io/ahappypie/mariadb:10.3-myrocks
@@ -37,6 +26,13 @@ services:
     networks:
       - marschat-dev-net
 
+  unica:
+    image: quay.io/ahappypie/unica:0.1.0
+    container_name: unica-marschat
+    ports:
+    - "50001:50001"
+    networks:
+      - marschat-dev-net
 networks:
   marschat-dev-net:
     name: marschat-dev-net

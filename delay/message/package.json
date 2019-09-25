@@ -1,0 +1,17 @@
+{
+  "name": "marschat-delay",
+  "version": "0.0.1",
+  "description": "Light-delay system for marschat",
+  "main": "index.js",
+  "repository": "https://github.com/ahappypie/marschat",
+  "author": "Brian Bagdasarian",
+  "license": "MIT",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
+    "grpc": "^1.16.0",
+    "ioredis": "^4.14.1"
+  },
+  "scripts": {
+    "dev:message-service": "node $NODE_DEBUG_OPTION messageService.js"
+  }
+}
