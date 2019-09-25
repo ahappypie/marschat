@@ -29,7 +29,7 @@ const messageProtoDescriptor = grpc.loadPackageDefinition(messagePackageDefiniti
 const grpcMessageClient = new messageProtoDescriptor.MessageDelay(process.env.GRPC_MESSAGE_URL, grpc.credentials.createInsecure());
 
 const unicaPackageDefinition = protoLoader.loadSync(
-    '../../unica/protos/unica.proto',
+    '../../unica/api/unica.proto',
     {keepCase: true,
         longs: String,
         enums: String,
@@ -37,7 +37,7 @@ const unicaPackageDefinition = protoLoader.loadSync(
         oneofs: true
     });
 const unicaProtoDescriptor = grpc.loadPackageDefinition(unicaPackageDefinition);
-const grpcUnicaClient = new unicaProtoDescriptor.Unica(process.env.UNICA_URL, grpc.credentials.createInsecure());
+const grpcUnicaClient = new unicaProtoDescriptor.unica.IdService(process.env.UNICA_URL, grpc.credentials.createInsecure());
 
 app.use(bodyParser.json());
 
@@ -103,4 +103,4 @@ const unica = async () => {
             }
         });
     })
-}
+};

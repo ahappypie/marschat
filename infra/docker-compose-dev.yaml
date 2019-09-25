@@ -26,6 +26,13 @@ services:
     networks:
       - marschat-dev-net
 
+  unica:
+    image: quay.io/ahappypie/unica:0.1.0
+    container_name: unica-marschat
+    ports:
+    - "50001:50001"
+    networks:
+      - marschat-dev-net
 networks:
   marschat-dev-net:
     name: marschat-dev-net
