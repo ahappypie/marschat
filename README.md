@@ -65,7 +65,8 @@ For SBT:
 There are two endpoints available:
 
 ```GET localhost:3000/delay``` requires query parameter ```ts```, the unix timestamp (in milliseconds) you would like to know the light delay for. 
-Returns light delay in milliseconds.
+Returns light delay in milliseconds. 
+Optionally add query parameter ```dest```, one of ```MARS | JUPITER | SATURN```, and the delay will be for the specified destination. Defaults to ```MARS``` if none is given.
 
 ```POST localhost:3000/message``` IN PROGRESS. Will accept body with ```message_id```, ```timestamp``` and ```callback_url```. 
 Immediately returns light delay in milliseconds.

@@ -27,7 +27,7 @@ redis.on('ready', () => {
 });
 
 const setMessageDelay = async (call, callback) => {
-    delayRpc.getLightDelay(call.request.timestamp).then(res => {
+    delayRpc.getLightDelay(call.request).then(res => {
         if(process.env.DELAY_MODE === 'dev') {
             redis.set(call.request.message_id, '', 'EX', 5);
         } else {

@@ -74,7 +74,12 @@ app.post('/message', async (req, res) => {
 app.get('/delay', async(req, res) => {
     console.log(req.query);
 
-    grpcDelayClient.getLightDelay({timestamp: req.query.ts}, (err, response) => {
+    let rpc = {timestamp: req.query.ts};
+    if(req.query.dest) {
+        rpc.dest = req.query.dest.toUpperCase();
+    }
+
+    grpcDelayClient.getLightDelay(rpc, (err, response) => {
         if(!err) {
             res.send(response);
         } else {

@@ -9,6 +9,12 @@ service LightDelay {
 
 message LightDelayRequest {
     uint64 timestamp = 1;
+    enum Destination {
+        MARS = 0;
+        JUPITER = 1;
+        SATURN = 2;
+    }
+    Destination dest = 2;
 }
 
 message LightDelayResponse {

@@ -15,9 +15,13 @@ class DelayRpc {
         this.client = new protoDescriptor.LightDelay(process.env.GRPC_URL, grpc.credentials.createInsecure());
     }
 
-    async getLightDelay(timestamp) {
+    async getLightDelay(request) {
         return new Promise((resolve, reject) => {
-            this.client.getLightDelay({timestamp: timestamp}, (err, response) => {
+            let rpc = {timestamp: request.timestamp};
+            if(request.dest) {
+                rpc.dest = request.dest.toUpperCase();
+            }
+            this.client.getLightDelay(rpc, (err, response) => {
                 if(!err) {
                     resolve(response);
                 } else {

@@ -10,11 +10,11 @@ import io.github.ahappypie.marschat.grpc.delay.{LightDelayRequest, LightDelayRes
   * www.physics.emory.edu/astronomy/events/mars/calc.html
  */
 
-object DelayActor {
-  def props: Props = Props(new DelayActor)
+object MarsDelayActor {
+  def props: Props = Props(new MarsDelayActor)
 }
 
-class DelayActor extends Actor {
+class MarsDelayActor extends Actor {
   override def receive: Receive = {
     case req: LightDelayRequest =>
       sender ! LightDelayResponse(delay(req.timestamp))
