@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package marschat;
+
+service DataAccessLayer {
+  // Read operations
+  rpc ListChannels(ListChannelsRequest) returns (ListChannelsResponse) {};
+  rpc ListMessages(ListMessagesRequest) returns (ListMessagesResponse) {};
+
+  // Write operations
+  rpc CreateChannel(CreateChannelRequest) returns (Channel) {};
+  rpc CreateMessage(CreateMessageRequest) returns (CreatedMessage) {};
+  rpc ReplicateMessage(ReplicateMessageRequest) returns (Message) {};
+}
+
+message ListChannelsRequest {
+  int32 user = 1;
+}
+message ListChannelsResponse {
+  repeated Channel channels = 1;
+}
+
+message CreateChannelRequest {
+  int32 owner = 1;
+  string name = 2;
+  optional bool private = 3;
+}
+
+message Channel {
+  int32 id = 1;
+  string name = 2;
+}
+
+message ListMessagesRequest {
+  int32 channel = 1;
+  int32 origin = 2;
+}
+
+message ListMessagesResponse {
+  repeated Message messages = 1;
+}
+
+message Message {
+  string text = 1;
+  int32 sender = 2;
+  repeated int32 replication = 3;
+}
+
+message CreatedMessage {
+  int32 id = 1;
+  string text = 2;
+  int32 sender = 3;
+}
+
+message CreateMessageRequest {
+  int32 sender = 1;
+  string text = 2;
+  int32 channel = 3;
+  int32 origin = 4;
+}
+
+message ReplicateMessageRequest {
+  int32 messageId = 1;
+  int32 destination = 2;
+}

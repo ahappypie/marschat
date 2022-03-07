@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Channel {
+  id            Int             @id @default(autoincrement())
+  name          String
+  private       Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  members       ChannelMember[]
+  messages      Message[]
+}
+
+model ChannelMember {
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  channelId Int
+  member    User     @relation(fields: [memberId], references: [id])
+  memberId  Int
+  owner     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([channelId, memberId])
+}
+
+model Message {
+  id                 Int                  @id @default(autoincrement())
+  text               String
+  sender             User                 @relation(fields: [senderId], references: [id])
+  senderId           Int
+  channel            Channel              @relation(fields: [channelId], references: [id])
+  channelId          Int
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  replication        MessageReplication[]
+}
+
+model MessageReplication {
+  message   Message  @relation(fields: [messageId], references: [id])
+  messageId Int
+  body      Body     @relation(fields: [bodyId], references: [id])
+  bodyId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([messageId, bodyId])
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  name          String?
+  origin        Body            @relation(fields: [originId], references: [id])
+  originId      Int
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Message       Message[]
+  ChannelMember ChannelMember[]
+}
+
+model Body {
+  id                 Int                  @id
+  name               String               @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  MessageReplication MessageReplication[]
+  User               User[]
+}

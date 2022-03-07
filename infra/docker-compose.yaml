@@ -1,0 +1,63 @@
+version: '3.5'
+services:
+  db:
+    image: postgres:13.4
+    container_name: postgres-marschat
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: r3dpl4n3t
+    ports:
+    - '5432:5432'
+    volumes:
+    - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - marschat-dev-net
+
+  broker:
+    image: vectorized/redpanda:v21.9.1
+    command:
+      - redpanda
+      - start
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '0'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
+    container_name: marschat-redpanda-0
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    volumes:
+      - ./data/redpanda:/var/lib/redpanda/data
+    networks:
+      - marschat-dev-net
+
+  redis-delay:
+    image: redis:alpine
+    container_name: redis-delay-marschat
+    command: redis-server --appendonly yes
+    ports:
+    - "6379:6379"
+    volumes:
+    - ./data/redis/delay:/data
+    networks:
+      - marschat-dev-net
+
+  light-delay:
+    image: ghcr.io/ahappypie/light-delay:0.1.0
+    container_name: light-delay-marschat
+    ports:
+      - "50050:50050"
+    networks:
+      - marschat-dev-net
+
+networks:
+  marschat-dev-net:
+    name: marschat-dev-net
+    driver: bridge

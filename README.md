@@ -4,7 +4,7 @@
 #### Shared Services
 Ensure ports 3306 and 6379 are open, then run:
 ```bash
-docker-compose -f infra/docker-compose-dev.yaml
+docker-compose -f infra/docker-compose.yaml
 ```
 This runs [mariadb:10.3-myrocks](https://quay.io/ahappypie/mariadb:10.3-myrocks) on 3306 and redis on 6379. 
 

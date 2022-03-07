@@ -1,0 +1,9 @@
+type Query {
+    channels(user: Int): [Channel]
+}
+
+type Channel {
+    id: Int
+    name: String
+    private: Boolean
+}

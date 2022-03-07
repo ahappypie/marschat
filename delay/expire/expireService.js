@@ -1,13 +1,7 @@
 const Redis = require('ioredis');
 
-const {sequelize, Message} = require('../../api/db.js');
-
 async function main() {
     try {
-        await sequelize.authenticate();
-        await sequelize.sync();
-        console.log('DB synced');
-
         const redis = new Redis({host: process.env.REDIS_DELAY_HOST, port: process.env.REDIS_DELAY_PORT});
 
         redis.on('ready', () => {
