@@ -17,3 +17,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+## Dev Notes
+* Based on [dwyl/phoenix-liveview-chat-example](https://github.com/dwyl/phoenix-liveview-chat-example)
+* Articles focusing on newer Phoenix features (including components) [fly.io/phoenix-files](https://fly.io/phoenix-files/)
+* Tailwind CSS [Phoenix Install Guide](https://tailwindcss.com/docs/guides/phoenix)
+* [Petal Components](https://petal.build/docs)
