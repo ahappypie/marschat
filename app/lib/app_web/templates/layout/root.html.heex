@@ -10,11 +10,13 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-  <header>
-    <section class="container">
-      <h1 class="text-3xl font-bold underline">LiveView Chat Example</h1>
-    </section>
-  </header>
-  <%= @inner_content %>
+  <div class="container mx-auto">
+    <header>
+      <section class="container">
+        <h1 class="text-3xl font-bold underline">LiveView Chat Example</h1>
+      </section>
+    </header>
+    <%= @inner_content %>
+  </div>
   </body>
 </html>

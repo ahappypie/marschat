@@ -1,18 +1,22 @@
-<ul id='msg-list' phx-update="append">
-    <%= for message <- @messages do %>
-    <li id={"#{message.id}"}>
-        <b><%= message.name %>:</b>
-        <%= message.message %>
-    </li>
-    <% end %>
-</ul>
+<div class="max-w-2xl border rounded">
+    <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
+        <ul id='msg-list' phx-update="append">
+            <%= for message <- @messages do %>
+            <li id={"#{message.id}"}>
+                <b><%= message.name %>:</b>
+                <%= message.message %>
+            </li>
+            <% end %>
+        </ul>
+    </div>
 
-<.form let={f} for={@changeset} id="form" phx-submit="new_message">
-<%= text_input f, :name, id: "name", placeholder: "Your name", autofocus: "true"  %>
-<%= error_tag f, :name %>
+    <.form let={f} for={@changeset} id="form" phx-submit="new_message">
+    <%= text_input f, :name, id: "name", placeholder: "Your name", autofocus: "true"  %>
+    <%= error_tag f, :name %>
 
-<%= text_input f, :message, id: "msg", placeholder: "Your message"  %>
-<%= error_tag f, :message %>
+    <%= text_input f, :message, id: "msg", placeholder: "Your message"  %>
+    <%= error_tag f, :message %>
 
-<%= submit "Send"%>
-</.form>
+    <%= submit "Send"%>
+    </.form>
+</div>
