@@ -30,7 +30,7 @@ defmodule Marschat.Message do
 
   def list_messages do
     Message
-    |> limit(20)
+    |> limit(50)
     |> order_by(desc: :inserted_at)
     |> Repo.all()
   end
